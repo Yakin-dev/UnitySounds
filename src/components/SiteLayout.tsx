@@ -48,12 +48,40 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               </Link>
             ))}
           </nav>
-          <Link
-            to="/contact"
-            className="hidden md:inline-flex items-center px-4 py-2 rounded-md bg-gold text-gold-foreground font-medium text-sm hover:opacity-90 transition shadow-gold"
-          >
-            Book Now
-          </Link>
+          <div className="hidden md:flex items-center gap-3">
+            {user ? (
+              <>
+                <span className="text-xs text-muted-foreground max-w-[160px] truncate" title={user.email ?? ""}>
+                  {user.email}
+                </span>
+                <Link
+                  to="/dashboard"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-gold/40 text-gold text-sm hover:bg-gold/10"
+                >
+                  <LayoutDashboard className="h-4 w-4" /> Dashboard
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm text-foreground/80 hover:text-gold"
+                  aria-label="Sign out"
+                >
+                  <LogOut className="h-4 w-4" /> Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth" className="text-sm text-foreground/80 hover:text-gold">
+                  Login
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center px-4 py-2 rounded-md bg-gold text-gold-foreground font-medium text-sm hover:opacity-90 transition shadow-gold"
+                >
+                  Book Now
+                </Link>
+              </>
+            )}
+          </div>
           <button
             className="md:hidden text-foreground"
             onClick={() => setOpen((o) => !o)}
@@ -75,13 +103,43 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   {n.label}
                 </Link>
               ))}
-              <Link
-                to="/contact"
-                onClick={() => setOpen(false)}
-                className="mt-2 inline-flex justify-center px-4 py-2 rounded-md bg-gold text-gold-foreground font-medium"
-              >
-                Book Now
-              </Link>
+              {user ? (
+                <>
+                  <div className="pt-2 text-xs text-muted-foreground truncate">
+                    Signed in as {user.email}
+                  </div>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex items-center gap-2 py-2 text-gold"
+                  >
+                    <LayoutDashboard className="h-4 w-4" /> Dashboard
+                  </Link>
+                  <button
+                    onClick={() => { setOpen(false); handleSignOut(); }}
+                    className="inline-flex items-center gap-2 py-2 text-left"
+                  >
+                    <LogOut className="h-4 w-4" /> Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/auth"
+                    onClick={() => setOpen(false)}
+                    className="py-2 text-base"
+                  >
+                    Login / Register
+                  </Link>
+                  <Link
+                    to="/contact"
+                    onClick={() => setOpen(false)}
+                    className="mt-2 inline-flex justify-center px-4 py-2 rounded-md bg-gold text-gold-foreground font-medium"
+                  >
+                    Book Now
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}
