@@ -1,6 +1,9 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Menu, X, Music2 } from "lucide-react";
+import { Menu, X, Music2, LogOut, LayoutDashboard } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -13,6 +16,14 @@ const nav = [
 export function SiteLayout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    toast.success("Signed out");
+    navigate({ to: "/" });
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
@@ -37,12 +48,40 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               </Link>
             ))}
           </nav>
-          <Link
-            to="/contact"
-            className="hidden md:inline-flex items-center px-4 py-2 rounded-md bg-gold text-gold-foreground font-medium text-sm hover:opacity-90 transition shadow-gold"
-          >
-            Book Now
-          </Link>
+          <div className="hidden md:flex items-center gap-3">
+            {user ? (
+              <>
+                <span className="text-xs text-muted-foreground max-w-[160px] truncate" title={user.email ?? ""}>
+                  {user.email}
+                </span>
+                <Link
+                  to="/dashboard"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-gold/40 text-gold text-sm hover:bg-gold/10"
+                >
+                  <LayoutDashboard className="h-4 w-4" /> Dashboard
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm text-foreground/80 hover:text-gold"
+                  aria-label="Sign out"
+                >
+                  <LogOut className="h-4 w-4" /> Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth" className="text-sm text-foreground/80 hover:text-gold">
+                  Login
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center px-4 py-2 rounded-md bg-gold text-gold-foreground font-medium text-sm hover:opacity-90 transition shadow-gold"
+                >
+                  Book Now
+                </Link>
+              </>
+            )}
+          </div>
           <button
             className="md:hidden text-foreground"
             onClick={() => setOpen((o) => !o)}
@@ -64,13 +103,43 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   {n.label}
                 </Link>
               ))}
-              <Link
-                to="/contact"
-                onClick={() => setOpen(false)}
-                className="mt-2 inline-flex justify-center px-4 py-2 rounded-md bg-gold text-gold-foreground font-medium"
-              >
-                Book Now
-              </Link>
+              {user ? (
+                <>
+                  <div className="pt-2 text-xs text-muted-foreground truncate">
+                    Signed in as {user.email}
+                  </div>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex items-center gap-2 py-2 text-gold"
+                  >
+                    <LayoutDashboard className="h-4 w-4" /> Dashboard
+                  </Link>
+                  <button
+                    onClick={() => { setOpen(false); handleSignOut(); }}
+                    className="inline-flex items-center gap-2 py-2 text-left"
+                  >
+                    <LogOut className="h-4 w-4" /> Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/auth"
+                    onClick={() => setOpen(false)}
+                    className="py-2 text-base"
+                  >
+                    Login / Register
+                  </Link>
+                  <Link
+                    to="/contact"
+                    onClick={() => setOpen(false)}
+                    className="mt-2 inline-flex justify-center px-4 py-2 rounded-md bg-gold text-gold-foreground font-medium"
+                  >
+                    Book Now
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}
