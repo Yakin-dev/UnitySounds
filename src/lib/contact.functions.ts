@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestHeader } from "@tanstack/react-start/server";
 import { z } from "zod";
 
 const schema = z.object({
@@ -14,6 +15,18 @@ export const submitContactMessage = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => schema.parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    // If the request carries a Supabase bearer token, attribute the message to that user.
+    let userId: string | null = null;
+    const authHeader = getRequestHeader("authorization");
+    if (authHeader) {
+      const token = authHeader.replace(/^Bearer\s+/i, "");
+      if (token) {
+        const { data: userData } = await supabaseAdmin.auth.getUser(token);
+        userId = userData.user?.id ?? null;
+      }
+    }
+
     const { error } = await supabaseAdmin.from("contact_messages" as never).insert({
       name: data.name,
       email: data.email,
@@ -21,6 +34,7 @@ export const submitContactMessage = createServerFn({ method: "POST" })
       event_type: data.event_type || null,
       event_date: data.event_date ? data.event_date : null,
       message: data.message,
+      user_id: userId,
     } as never);
     if (error) throw new Error(error.message);
     return { ok: true };
