@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
-import { Speaker, Mic2, Sliders, Music, Sparkles, Headphones, ArrowRight, CheckCircle2 } from "lucide-react";
+import { HeroSlider } from "@/components/HeroSlider";
+import { Speaker, Mic2, Sliders, Music, Headphones, ArrowRight, CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,33 +20,8 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-hero relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "32px 32px" }} />
-        <div className="max-w-7xl mx-auto px-5 py-24 md:py-36 relative">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/30 text-gold text-xs tracking-widest uppercase">
-              <Sparkles className="h-3 w-3" /> A Unity Fashions Management Division
-            </span>
-            <h1 className="mt-6 text-5xl md:text-7xl lg:text-8xl font-display leading-[1.05]">
-              Unity <span className="text-gradient-gold">Sounds</span>
-            </h1>
-            <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl">
-              Professional Sound Rental, Music Production & Live Audio Solutions
-              for events, fashion shows, concerts and creative projects.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link to="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-gold text-gold-foreground font-semibold hover:opacity-90 shadow-gold transition">
-                Book Sound Setup <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link to="/services" className="inline-flex items-center gap-2 px-6 py-3 rounded-md border border-border hover:border-gold hover:text-gold transition">
-                View Services
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Slider */}
+      <HeroSlider />
 
       {/* What we do */}
       <section className="max-w-7xl mx-auto px-5 py-20">
@@ -73,7 +49,7 @@ function Home() {
               { icon: Sliders, label: "Live Mixing" },
               { icon: Music, label: "Music Production" },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="p-6 rounded-xl border border-border bg-card hover:border-gold/50 transition">
+              <div key={label} className="p-6 rounded-xl border border-border bg-card premium-glow-card">
                 <Icon className="h-7 w-7 text-gold" />
                 <p className="mt-4 font-medium">{label}</p>
               </div>
@@ -92,13 +68,12 @@ function Home() {
             </div>
             <Link to="/services" className="text-sm text-gold hover:underline">All services →</Link>
           </div>
-          <div className="mt-10 grid md:grid-cols-3 gap-6">
+          <div className="mt-10 grid md:grid-cols-2 gap-6">
             {[
               { icon: Speaker, title: "Sound System Rental", desc: "Crystal-clear PA systems sized for any venue or crowd." },
-              { icon: Mic2, title: "Runway & Fashion Audio", desc: "Precision audio direction built for the catwalk." },
               { icon: Music, title: "Music Production", desc: "Custom soundtracks, mixes and edits for your event." },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="group p-8 rounded-2xl bg-background border border-border hover:border-gold transition">
+              <div key={title} className="group p-8 rounded-2xl bg-background border border-border premium-glow-card">
                 <Icon className="h-8 w-8 text-gold" />
                 <h3 className="mt-5 text-xl">{title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
@@ -119,7 +94,7 @@ function Home() {
             { n: "03", t: "Tailored Sound", d: "Audio designed for fashion, music, corporate and private events." },
             { n: "04", t: "End-to-End", d: "From production to live mixing — one team handles everything." },
           ].map((f) => (
-            <div key={f.n} className="p-6 rounded-xl border border-border">
+            <div key={f.n} className="p-6 rounded-xl border border-border bg-card premium-glow-card">
               <span className="text-gold font-display text-2xl">{f.n}</span>
               <h3 className="mt-3 text-lg">{f.t}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{f.d}</p>
@@ -135,8 +110,8 @@ function Home() {
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
             Tell us about your event and we'll build the perfect sound setup for you.
           </p>
-          <Link to="/contact" className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-md bg-gold text-gold-foreground font-semibold shadow-gold hover:opacity-90">
-            Book Sound Setup <ArrowRight className="h-4 w-4" />
+          <Link to="/contact" className="mt-8 btn-gold">
+            Book Sound Setup <ArrowRight className="btn-icon" aria-hidden="true" />
           </Link>
         </div>
       </section>

@@ -29,11 +29,12 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
         <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 group">
-            <Music2 className="h-6 w-6 text-gold transition-transform group-hover:rotate-12" />
-            <span className="font-display text-xl tracking-wide">
-              Unity <span className="text-gradient-gold">Sounds</span>
-            </span>
+          <Link to="/" className="flex items-center gap-2 group py-1">
+            <img 
+              src="/logo.png" 
+              alt="Unity Sounds Logo" 
+              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            />
           </Link>
           <nav className="hidden md:flex items-center gap-8">
             {nav.map((n) => (
@@ -149,37 +150,52 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
 
-      <footer className="border-t border-border mt-20">
-        <div className="max-w-7xl mx-auto px-5 py-12 grid gap-10 md:grid-cols-3">
-          <div>
+      <footer className="border-t border-border mt-28 bg-card/10 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-5 py-16 grid gap-12 md:grid-cols-3">
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Music2 className="h-5 w-5 text-gold" />
-              <span className="font-display text-lg">
-                Unity <span className="text-gradient-gold">Sounds</span>
-              </span>
+              <img 
+                src="/logo.png" 
+                alt="Unity Sounds Logo" 
+                className="h-16 w-auto object-contain transition-opacity duration-300" 
+              />
             </div>
-            <p className="mt-3 text-sm text-muted-foreground max-w-xs">
-              The music, audio production and sound rental division of Unity Fashions Management.
+            <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+              The professional music, audio production, and sound rental division of Unity Fashions Management.
             </p>
           </div>
           <div>
             <h4 className="text-sm font-semibold tracking-widest uppercase text-gold">Explore</h4>
-            <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+            <ul className="mt-4 space-y-3 text-sm">
               {nav.map((n) => (
-                <li key={n.to}><Link to={n.to} className="hover:text-gold">{n.label}</Link></li>
+                <li key={n.to}>
+                  <Link 
+                    to={n.to} 
+                    className="text-muted-foreground transition-all duration-300 hover:text-gold hover:translate-x-1 inline-block"
+                  >
+                    {n.label}
+                  </Link>
+                </li>
               ))}
             </ul>
           </div>
           <div>
-            <h4 className="text-sm font-semibold tracking-widest uppercase text-gold">Contact</h4>
-            <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-              <li>Phone: +250 790 305 483</li>
-              <li>Location: Kigali City</li>
+            <h4 className="text-sm font-semibold tracking-widest uppercase text-gold">Contact Us</h4>
+            <ul className="mt-4 space-y-3 text-sm text-muted-foreground leading-relaxed">
+              <li className="flex items-center gap-2">
+                <span className="text-gold font-medium">Phone:</span> +250 790 305 483
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-gold font-medium">Location:</span> Kigali City, Rwanda
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-gold font-medium">Division:</span> Unity Fashions Management
+              </li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-border py-5 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Unity Sounds · A division of Unity Fashions Management
+        <div className="border-t border-border/50 py-6 text-center text-xs text-muted-foreground">
+          © {new Date().getFullYear()} Unity Sounds · All Rights Reserved · A division of Unity Fashions Management
         </div>
       </footer>
     </div>
