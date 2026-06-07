@@ -52,7 +52,7 @@ function Contact() {
 
     setLoading(true);
     try {
-      const res = await submit(payload);
+      const res = await submit({ data: payload });
       if (res && res.ok) {
         toast.success("Request saved! You can now continue on WhatsApp.");
         setSubmittedPayload(payload);
