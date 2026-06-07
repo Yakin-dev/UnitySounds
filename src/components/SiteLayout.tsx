@@ -173,9 +173,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           <div>
             <h4 className="text-sm font-semibold tracking-widest uppercase text-gold">Contact</h4>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-              <li>Phone: +000 000 0000</li>
-              <li>Email: hello@unitysounds.com</li>
-              <li>Location: Your City</li>
+              <li>Phone: +250 790 305 483</li>
+              <li>Location: Kigali City</li>
             </ul>
           </div>
         </div>

@@ -16,9 +16,9 @@ export const Route = createFileRoute("/contact")({
   component: () => <SiteLayout><Contact /></SiteLayout>,
 });
 
-const WHATSAPP_NUMBER = "0000000000"; // replace with real number
-const PHONE = "+000 000 0000";
-const EMAIL = "hello@unitysounds.com";
+const WHATSAPP_NUMBER = "0790305483"; // replace with real number
+const PHONE = "+250790305483"; // replace with real number
+const EMAIL = "unitysounds@gmail.com";
 const LOCATION = "Your City";
 
 function Contact() {
